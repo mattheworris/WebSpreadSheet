@@ -2,7 +2,9 @@
 
 Backend toy code to simulate an online spread sheet.
 
-Compile: `g++-11 Sheet.cpp`
+Compile: `g++-11 -o Sheet Sheet.cpp`
+
+Test: `> ./Sheet`
 
 ## API:
 
