@@ -2,6 +2,8 @@
 
 Backend toy code to simulate an online spread sheet.
 
+Compile: `g++-11 Sheet.cpp`
+
 ## API:
 
 `void SetCell(const string& cellName, const string& stringValue)`
