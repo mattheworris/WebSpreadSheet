@@ -13,7 +13,12 @@ class Sheet {
 public:
     Sheet() { }
 
-    void SetCell(const string& cellName, const string& stringValue) {
+    void SetCell(const string& cellName, const string& value) {
+        cells[cellName] = value;
+    }
+
+    string GetCell(const string& cellName) {
+        string stringValue = cells[cellName];
         if (stringValue[0] == '=')
         {
             // This cell will contain a mathematical operation based on other cells
@@ -21,24 +26,19 @@ public:
             size_t mathOperator = stringValue.find_first_of('+');
             string cell1 = stringValue.substr(1, mathOperator - 1);
             string cell2 = stringValue.substr(mathOperator + 1);
-            int value1 = cells[cell1];
-            int value2 = cells[cell2];
-            cells[cellName] = value1 + value2;
+            string stringValue1 = cells[cell1];
+            string stringValue2 = cells[cell2];
+            int value = atoi(stringValue1.c_str()) + atoi(stringValue2.c_str());
+            return to_string(value);
         }
         else
         {
-            int value = atoi(stringValue.c_str());
-            cells[cellName] = value;
+            return cells[cellName];
         }
     }
 
-    string GetCell(const string& cellName) {
-        int value = cells[cellName];
-        return to_string(value);
-    }
-
 private:
-    map<const string, int> cells;
+    map<string, string> cells;
 };  
 
 SCENARIO("Backend Spread Sheet API Tests") {
@@ -54,7 +54,7 @@ SCENARIO("Backend Spread Sheet API Tests") {
         REQUIRE(sheet.GetCell("A2") == "2");
         REQUIRE(sheet.GetCell("A3") == "3");
 
-        WHEN("new cells are created with mathmatical operations")
+        WHEN("new cells are created with mathematical operations")
         {
             sheet.SetCell("A4", "=A3+A2");
             sheet.SetCell("BB2", "=A3+BB1");
